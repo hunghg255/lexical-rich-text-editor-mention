@@ -13,13 +13,14 @@ import ToolbarPlugin from "@/src/components/Toolbar";
 import { editorNodes } from "@/src/utils/editorNodes";
 import MentionsPlugin from "@/src/plugins/MentionsPlugin";
 import { MentionNode } from "@/src/utils/metionNodes";
+import { BeautifulMentionNode, BeautifulMentionsPlugin } from "@/src/Mentions";
 
 const theme = {
   // Theme styling goes here
   heading: {
-    h1: "text-2xl text-green-700",
-    h2: "text-xl text-red-700",
-    h3: "text-lg text-yellow-600",
+    h1: "text-2xl",
+    h2: "text-xl",
+    h3: "text-lg",
   },
   paragraph: "text-base text-indigo-700",
   text: {
@@ -55,12 +56,19 @@ function onError(error: Error) {
   console.log(error);
 }
 
+const mentionItems = {
+  "@": ["Anton", "Boris", "Catherine", "Dmitri", "Elena", "Felix", "Gina"],
+};
+
 const Editor = () => {
   const initialConfig = {
     namespace: "MyEditor",
     theme,
     onError,
-    nodes: [...editorNodes, MentionNode],
+    nodes: [...editorNodes, BeautifulMentionNode],
+    beautifulMentions: {
+      "@": `px-1 mx-px ...`, // use the trigger name as the key
+    },
   };
 
   return (
@@ -90,7 +98,11 @@ const Editor = () => {
 
             <ListPlugin />
 
-            <MentionsPlugin />
+            <BeautifulMentionsPlugin
+      items={mentionItems}
+    />
+            {/* <MentionsPlugin /> */}
+
           </LexicalComposer>
     </>
   );
